@@ -1,14 +1,15 @@
+import Head from "next/head";
 import Container from "@/components/Container";
 import Header from "@/components/Header";
-import "@/styles/globals.css";
 import { ThemeProvider } from "@/lib/ThemeContext";
-import Head from "next/head";
+import "@/styles/globals.css";
 
 export default function App({ Component, pageProps }) {
   return (
     <>
       <Head>
-        <title>Wa</title>
+        <title>watchit</title>
+        <link rel="icon" href="/favicon.ico" />
       </Head>
       <ThemeProvider>
         <Header />

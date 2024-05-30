@@ -6,6 +6,7 @@ import MovieReviewList from "@/components/MovieReviewList";
 import styles from "@/styles/Movie.module.css";
 import axios from "@/lib/axios";
 import Image from "next/image";
+import Head from "next/head";
 
 const labels = {
   rating: {
@@ -46,6 +47,9 @@ export default function Movie() {
   return (
     <>
       <Header />
+      <Head>
+        <title>{movie.title} - watchit</title>
+      </Head>
       <Container page>
         <div className={styles.header}>
           <div className={styles.posterContainer}>

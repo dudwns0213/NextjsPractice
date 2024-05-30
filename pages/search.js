@@ -26,7 +26,7 @@ export default function Search() {
   return (
     <>
       <Head>
-        <title>검색 결과</title>
+        <title>{q} 검색 결과</title>
       </Head>
       <Header />
       <Container page>

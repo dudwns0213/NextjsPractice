@@ -22,9 +22,6 @@ export default function Home() {
 
   return (
     <>
-      <Head>
-        <title>왓챠짭</title>
-      </Head>
       <SearchForm />
       <MovieList className={styles.movieList} movies={movies} />
     </>

@@ -1,6 +1,7 @@
 import Dropdown from "@/components/Dropdown";
 import { useTheme } from "@/lib/ThemeContext";
 import styles from "@/styles/Setting.module.css";
+import Head from "next/head";
 
 export default function Setting() {
   const { theme, setTheme } = useTheme();
@@ -12,7 +13,9 @@ export default function Setting() {
 
   return (
     <>
-      <h1 className={styles.title}>설정</h1>
+      <Head>
+        <title>설정 - watchit</title>
+      </Head>
       <section className={styles.section}>
         <h2 className={styles.sectionTitle}>테마 설정</h2>
         <Dropdown
