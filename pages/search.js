@@ -8,21 +8,20 @@ import Container from "@/components/Container";
 import axios from "@/lib/axios";
 import Head from "next/head";
 
-export default function Search() {
-  const [movies, setMovies] = useState([]);
-  const router = useRouter();
-  const q = router.query["q"];
+export async function getServerSideProps(context) {
+  const { q } = context.query;
+  const res = await axios.get(`/movies?q=${q}`);
+  const movies = res.data.results ?? [];
 
-  async function getMovies(query) {
-    const res = await axios.get(`/movies?q=${query}`);
-    const movies = res.data.results ?? [];
-    setMovies(movies);
-  }
+  return {
+    props: {
+      movies,
+      q,
+    },
+  };
+}
 
-  useEffect(() => {
-    getMovies(q);
-  }, [q]);
-
+export default function Search(q, movies) {
   return (
     <>
       <Head>
