@@ -1,21 +1,36 @@
 .notFound {
+  position: relative;
   display: flex;
-  flex-direction: column;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
+  min-height: 100vh;
+  background: #1a1a1a;
+  color: white;
+  overflow: hidden;
 }
 
 .content {
-  margin: 25px 0 60px;
-  color: #e1e1e1;
-  font-weight: 400;
-  font-size: 18px;
-  line-height: 26px;
-  font-family: "Noto Sans KR";
   text-align: center;
+  padding: 20px;
+  border-radius: 12px;
+  background: rgba(0, 0, 0, 0.6);
+  backdrop-filter: blur(10px);
+  max-width: 600px;
+}
+
+.title {
+  font-size: 48px;
+  font-weight: bold;
+  margin-bottom: 16px;
+}
+
+.message {
+  font-size: 18px;
+  line-height: 1.6;
+  margin-bottom: 24px;
 }
 
 .button {
-  width: 100%;
-  max-width: 250px;
-}
+  display: inline-block;
+  padding: 12px 24px;
+  background-color: #0070
