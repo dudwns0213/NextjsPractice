@@ -10,7 +10,13 @@ export default function MovieList({ className = "", movies }) {
         <li key={movie.id}>
           <Link href={`/movies/${movie.id}`}>
             <div className={styles.posterContainer}>
-              <Image fill src={movie.posterUrl} alt={movie.title} />
+              <Image
+                fill
+                src={movie.posterUrl}
+                alt={movie.title}
+                sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
+                priority={movies.indexOf(movie) < 5}
+              />
             </div>
           </Link>
           <div className={styles.info}>
@@ -21,6 +27,13 @@ export default function MovieList({ className = "", movies }) {
             <div className={styles.starRatingContainer}>
               <StarRating value={movie.starRating} />
               <span className={styles.starRating}>{movie.starRating}</span>
+            </div>
+            <div className={styles.tags}>
+              {movie.tags.map((tag) => (
+                <span key={tag} className={styles.tag}>
+                  {tag}
+                </span>
+              ))}
             </div>
           </div>
         </li>
