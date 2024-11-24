@@ -1,5 +1,5 @@
-import { useEffect, useState, useRef } from 'react';
-import styles from './Dropdown.module.css';
+import { useEffect, useState, useRef } from "react";
+import styles from "./Dropdown.module.css";
 
 export default function Dropdown({
   className,
@@ -11,59 +11,57 @@ export default function Dropdown({
   const [isOpen, setIsOpen] = useState(false);
   const inputRef = useRef(null);
 
-  function handleInputClick() {
-    setIsOpen((prevIsOpen) => !prevIsOpen);
-  }
-
-  function handleBlur() {
-    setIsOpen(false);
-  }
-
   useEffect(() => {
     function handleClickOutside(e) {
-      const isInside = inputRef.current?.contains(e.target);
-      if (!isInside) {
+      if (inputRef.current && !inputRef.current.contains(e.target)) {
         setIsOpen(false);
       }
     }
 
-    window.addEventListener('click', handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      window.removeEventListener('click', handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
-  const classNames = `${styles.input} ${
-    isOpen ? styles.opened : ''
-  } ${className}`;
+  const handleToggle = () => {
+    setIsOpen((prev) => !prev);
+  };
+
+  const handleOptionClick = (optionValue) => {
+    onChange(name, optionValue);
+    setIsOpen(false);
+  };
+
   const selectedOption = options.find((option) => option.value === value);
 
   return (
     <div
-      className={classNames}
-      onClick={handleInputClick}
-      onBlur={handleBlur}
       ref={inputRef}
+      className={`${styles.dropdown} ${
+        isOpen ? styles.opened : ""
+      } ${className}`}
+      onClick={handleToggle}
     >
-      {selectedOption.label}
-      <span className={styles.arrow}>▲</span>
-      <div className={styles.options}>
-        {options.map((option) => {
-          const selected = value === option.value;
-          const className = `${styles.option} ${
-            selected ? styles.selected : ''
-          }`;
-          return (
+      <div className={styles.selectedOption}>
+        {selectedOption ? selectedOption.label : "Select an option"}
+        <span className={styles.arrow}>{isOpen ? "▲" : "▼"}</span>
+      </div>
+      {isOpen && (
+        <div className={styles.options}>
+          {options.map((option) => (
             <div
-              className={className}
               key={option.value}
-              onClick={() => onChange(name, option.value)}
+              className={`${styles.option} ${
+                option.value === value ? styles.selected : ""
+              }`}
+              onClick={() => handleOptionClick(option.value)}
             >
               {option.label}
             </div>
-          );
-        })}
-      </div>
+          ))}
+        </div>
+      )}
     </div>
   );
 }
