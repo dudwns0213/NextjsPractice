@@ -2,21 +2,22 @@ import { useEffect, useState, useRef } from "react";
 import styles from "./Dropdown.module.css";
 
 export default function Dropdown({
-  className,
+  className = "",
   name,
   value,
   options,
   onChange,
 }) {
   const [isOpen, setIsOpen] = useState(false);
-  const inputRef = useRef(null);
+  const dropdownRef = useRef(null);
 
+  // Handle clicks outside the dropdown to close it
   useEffect(() => {
-    function handleClickOutside(e) {
-      if (inputRef.current && !inputRef.current.contains(e.target)) {
+    const handleClickOutside = (e) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
         setIsOpen(false);
       }
-    }
+    };
 
     document.addEventListener("mousedown", handleClickOutside);
     return () => {
@@ -24,11 +25,12 @@ export default function Dropdown({
     };
   }, []);
 
-  const handleToggle = () => {
+  const toggleDropdown = (e) => {
+    e.stopPropagation();
     setIsOpen((prev) => !prev);
   };
 
-  const handleOptionClick = (optionValue) => {
+  const handleOptionSelect = (optionValue) => {
     onChange(name, optionValue);
     setIsOpen(false);
   };
@@ -37,16 +39,20 @@ export default function Dropdown({
 
   return (
     <div
-      ref={inputRef}
-      className={`${styles.dropdown} ${
-        isOpen ? styles.opened : ""
-      } ${className}`}
-      onClick={handleToggle}
+      ref={dropdownRef}
+      className={`${styles.dropdown} ${isOpen ? styles.open : ""} ${className}`}
+      role="listbox"
+      aria-expanded={isOpen}
+      tabIndex={0}
+      onClick={toggleDropdown}
     >
+      {/* Selected Option */}
       <div className={styles.selectedOption}>
         {selectedOption ? selectedOption.label : "Select an option"}
         <span className={styles.arrow}>{isOpen ? "▲" : "▼"}</span>
       </div>
+
+      {/* Options */}
       {isOpen && (
         <div className={styles.options}>
           {options.map((option) => (
@@ -55,7 +61,9 @@ export default function Dropdown({
               className={`${styles.option} ${
                 option.value === value ? styles.selected : ""
               }`}
-              onClick={() => handleOptionClick(option.value)}
+              role="option"
+              aria-selected={option.value === value}
+              onClick={() => handleOptionSelect(option.value)}
             >
               {option.label}
             </div>
